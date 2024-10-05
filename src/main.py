@@ -1,4 +1,4 @@
-import os, sys, io
+import os, sys
 
 
 print(sys.argv)

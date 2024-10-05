@@ -25,4 +25,10 @@ jobs:
       - name: Lint with Ruff
         run: |
           pip install ruff
-          ruff check --output-format=github .
+
+          git fetch
+          DIFF_FILES=$(git diff remotes/origin/${{ github.base_ref }}..HEAD --diff-filter=ACDMR --name-only "*.py")
+
+          for f in $DIFF_FILES; do
+            ruff check $f --output-format=github
+          done

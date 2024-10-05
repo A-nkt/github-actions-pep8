@@ -31,7 +31,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install ruff
-          ruff check . --output-format=github > /tmp/comment || true
+
+          git fetch
+          DIFF_FILES=$(git diff remotes/origin/${{ github.base_ref }}..HEAD --diff-filter=ACDMR --name-only "*.py")
+
+          for f in $DIFF_FILES; do
+            FLAKE8_OUT=$(ruff check . --output-format=github > /tmp/comment || true)
+          done
+
           if [ -s /tmp/comment ]; then
             gh pr comment "${PR_NUMBER}" -F /tmp/comment
             exit 1

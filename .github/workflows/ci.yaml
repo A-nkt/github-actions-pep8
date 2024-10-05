@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install ruff
-          ruff check . --output-format=github > /tmp/comment
+          ruff check . --output-format=github > /tmp/comment || true
           if [ -s /tmp/comment ]; then
             gh pr comment "${PR_NUMBER}" -F /tmp/comment
             exit 1

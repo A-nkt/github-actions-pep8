@@ -39,3 +39,6 @@ jobs:
             ruff check $f --output-format=github
           done
 
+      - name: Run Ruff
+        run: ruff format --check
+
